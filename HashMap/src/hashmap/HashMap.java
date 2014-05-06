@@ -35,9 +35,14 @@ public class HashMap<K, V> {
         }
     }
 
+    private final static int DEFAULT_SIZE = 20;
     private final int size;
     private final LinkedList<Item<K, V>>[] elements;
 
+   public HashMap() {
+      this(DEFAULT_SIZE);
+   }
+    
     public HashMap(int size) {
         this.size = size;
         this.elements = (LinkedList<Item<K, V>>[])new LinkedList[size];
