@@ -71,13 +71,14 @@ public class HashMapTest {
       assertEquals(map.toString(), "");
       
       map.put("first", 1);
-      assertEquals(map.toString(), "[0] -> {first = 1}\n");
+      assertEquals(map.toString(), "[4] -> {first = 1}\n");
   
       map.put("second", 2);
-      assertEquals(map.toString(), "[0] -> {first = 1}\n[1] -> {second = 2}\n");
+      assertEquals(map.toString(), "[1] -> {second = 2}\n[4] -> {first = 1}\n");
       
       map.put("double", 4);
-      assertEquals(map.toString(), "[0] -> {first = 1}\n[1] -> {second = 2, double = 4}\n");
+      assertEquals(map.toString(), "[0] -> {double = 4}\n[1] -> {second = 2}\n"
+              + "[4] -> {first = 1}\n");
    }
-   
+
 }
