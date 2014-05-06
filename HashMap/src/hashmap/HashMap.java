@@ -35,7 +35,7 @@ public class HashMap<K, V> {
       }
    }
    
-   private final static int DEFAULT_SIZE = 20;
+   private final static int DEFAULT_SIZE = 32;
    private final int size;
    private final LinkedList<Item<K, V>>[] elements;
    
@@ -48,12 +48,21 @@ public class HashMap<K, V> {
       this.elements = (LinkedList<Item<K, V>>[])new LinkedList[size];
    }
    
-   private int hashForKey(K key) {
-      return key == null ? 0 : key.toString().length() % size;
+   // http://www.eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
+   private int simpleHash(K key) {
+      if ( key == null ) return 0;
+      else {
+         int hash = 7;
+         String strKey = key.toString();
+         for (int i=0; i < strKey.length(); i++) {
+            hash = hash * 31 + strKey.charAt(i);
+         }
+         return hash;
+      }
    }
    
    public boolean hasElement(K key) {
-      int index = hashForKey(key);
+      int index = simpleHash(key) % size;
       if ( elements[index] == null ) {
          return false;
       }
@@ -67,7 +76,7 @@ public class HashMap<K, V> {
    }
    
    public V get(K key) {
-      int index = hashForKey(key);
+      int index = simpleHash(key) % size;
       if ( elements[index] == null ) {
          return null;
       }
@@ -81,9 +90,9 @@ public class HashMap<K, V> {
    }
    
    public void put(K key, V value) {
-      int index = hashForKey(key);
+      int index = simpleHash(key) % size;
       if ( elements[index] == null ) {
-         elements[index] = new LinkedList<Item<K, V>>();
+         elements[index] = new LinkedList<>();
       }
       
       for ( Item<K, V> i : elements[index] ) {
@@ -93,7 +102,7 @@ public class HashMap<K, V> {
          }
       }
       
-      elements[index].add( new Item<K, V>(key, value) );
+      elements[index].add( new Item<>(key, value) );
    }
    
    @Override
